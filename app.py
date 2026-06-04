@@ -1,7 +1,7 @@
 import math
 import random
 from dataclasses import dataclass
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 import streamlit as st
 
@@ -29,6 +29,7 @@ TEAMS = [
     {"id": "manchester_city_2023", "league": "Premier League", "name": "Manchester City", "era": "2022-23 Treble", "score": 96},
     {"id": "liverpool_2019", "league": "Premier League", "name": "Liverpool", "era": "2019 Champions League winners", "score": 93},
     {"id": "liverpool_2020", "league": "Premier League", "name": "Liverpool", "era": "2019-20 Premier League champions", "score": 94},
+
     {"id": "barcelona_2009", "league": "La Liga", "name": "Barcelona", "era": "2008-09 Guardiola", "score": 95},
     {"id": "barcelona_2011", "league": "La Liga", "name": "Barcelona", "era": "2010-11 Guardiola", "score": 97},
     {"id": "barcelona_2015", "league": "La Liga", "name": "Barcelona", "era": "2014-15 MSN", "score": 96},
@@ -36,6 +37,7 @@ TEAMS = [
     {"id": "real_madrid_2017", "league": "La Liga", "name": "Real Madrid", "era": "2016-17 Three-peat", "score": 96},
     {"id": "real_madrid_2024", "league": "La Liga", "name": "Real Madrid", "era": "2023-24 Champions League winners", "score": 97},
     {"id": "atletico_madrid_2014", "league": "La Liga", "name": "Atletico Madrid", "era": "2013-14 champions", "score": 90},
+
     {"id": "ac_milan_1994", "league": "Serie A", "name": "AC Milan", "era": "1993-94", "score": 95},
     {"id": "ac_milan_2007", "league": "Serie A", "name": "AC Milan", "era": "2006-07 Champions League winners", "score": 92},
     {"id": "inter_2010", "league": "Serie A", "name": "Inter Milan", "era": "2009-10 Treble", "score": 94},
@@ -43,17 +45,19 @@ TEAMS = [
     {"id": "juventus_2015", "league": "Serie A", "name": "Juventus", "era": "2014-15 finalists", "score": 91},
     {"id": "napoli_2023", "league": "Serie A", "name": "Napoli", "era": "2022-23 champions", "score": 88},
     {"id": "roma_2001", "league": "Serie A", "name": "Roma", "era": "2000-01 champions", "score": 87},
+
     {"id": "bayern_2013", "league": "Bundesliga", "name": "Bayern Munich", "era": "2012-13 Treble", "score": 95},
     {"id": "bayern_2020", "league": "Bundesliga", "name": "Bayern Munich", "era": "2019-20 Sextuple", "score": 97},
-    {"id": "dortmund_1997", "league": "Bundesliga", "name": "Borussia Dortmund", "era": "1996-97 Champions League winners", "score": 89},
     {"id": "dortmund_2013", "league": "Bundesliga", "name": "Borussia Dortmund", "era": "2012-13 finalists", "score": 90},
     {"id": "leverkusen_2024", "league": "Bundesliga", "name": "Bayer Leverkusen", "era": "2023-24 Invincibles", "score": 94},
-    {"id": "werder_bremen_2004", "league": "Bundesliga", "name": "Werder Bremen", "era": "2003-04 double winners", "score": 86},
     {"id": "psg_2016", "league": "Ligue 1", "name": "Paris Saint-Germain", "era": "2015-16", "score": 90},
     {"id": "psg_2025", "league": "Ligue 1", "name": "Paris Saint-Germain", "era": "2024-25 champions", "score": 95},
-    {"id": "marseille_1993", "league": "Ligue 1", "name": "Marseille", "era": "1992-93 Champions League winners", "score": 88},
     {"id": "monaco_2017", "league": "Ligue 1", "name": "Monaco", "era": "2016-17 Mbappe era", "score": 91},
-    {"id": "lyon_2006", "league": "Ligue 1", "name": "Lyon", "era": "2005-06 dynasty", "score": 87},
+
+    {"id": "galatasaray_legends", "league": "Turkey", "name": "Galatasaray", "era": "Legends", "score": 92},
+    {"id": "fenerbahce_legends", "league": "Turkey", "name": "Fenerbahce", "era": "Legends", "score": 91},
+    {"id": "besiktas_legends", "league": "Turkey", "name": "Besiktas", "era": "Legends", "score": 90},
+    {"id": "belgium_golden_generation", "league": "International", "name": "Belgium", "era": "Golden Generation", "score": 93},
 ]
 
 TEAM_PLAYERS: Dict[str, List[Dict[str, str]]] = {
@@ -356,19 +360,6 @@ TEAM_PLAYERS: Dict[str, List[Dict[str, str]]] = {
         {"name": "Kingsley Coman", "position": "LW"},
         {"name": "Robert Lewandowski", "position": "ST"},
     ],
-    "dortmund_1997": [
-        {"name": "Stefan Klos", "position": "GK"},
-        {"name": "Stefan Reuter", "position": "RB"},
-        {"name": "Jurgen Kohler", "position": "CB"},
-        {"name": "Matthias Sammer", "position": "CB"},
-        {"name": "Michael Zorc", "position": "CM"},
-        {"name": "Andreas Moller", "position": "CM"},
-        {"name": "Paul Lambert", "position": "CM"},
-        {"name": "Lars Ricken", "position": "RW"},
-        {"name": "Stephane Chapuisat", "position": "ST"},
-        {"name": "Karl-Heinz Riedle", "position": "ST"},
-        {"name": "Heiko Herrlich", "position": "ST"},
-    ],
     "dortmund_2013": [
         {"name": "Roman Weidenfeller", "position": "GK"},
         {"name": "Lukasz Piszczek", "position": "RB"},
@@ -394,19 +385,6 @@ TEAM_PLAYERS: Dict[str, List[Dict[str, str]]] = {
         {"name": "Alejandro Grimaldo", "position": "LB"},
         {"name": "Victor Boniface", "position": "ST"},
         {"name": "Patrik Schick", "position": "ST"},
-    ],
-    "werder_bremen_2004": [
-        {"name": "Andreas Reinke", "position": "GK"},
-        {"name": "Frank Baumann", "position": "CB"},
-        {"name": "Valerien Ismael", "position": "CB"},
-        {"name": "Mladen Krstajic", "position": "CB"},
-        {"name": "Christian Schulz", "position": "LB"},
-        {"name": "Johan Micoud", "position": "CM"},
-        {"name": "Tim Borowski", "position": "CM"},
-        {"name": "Fabian Ernst", "position": "CM"},
-        {"name": "Ivan Klasnic", "position": "ST"},
-        {"name": "Ailton", "position": "ST"},
-        {"name": "Miroslav Klose", "position": "ST"},
     ],
     "psg_2016": [
         {"name": "Kevin Trapp", "position": "GK"},
@@ -434,44 +412,58 @@ TEAM_PLAYERS: Dict[str, List[Dict[str, str]]] = {
         {"name": "Bradley Barcola", "position": "LW"},
         {"name": "Khvicha Kvaratskhelia", "position": "LW"},
     ],
-    "marseille_1993": [
-        {"name": "Fabien Barthez", "position": "GK"},
-        {"name": "Manuel Amoros", "position": "RB"},
-        {"name": "Marcel Desailly", "position": "CB"},
-        {"name": "Basile Boli", "position": "CB"},
-        {"name": "Jocelyn Angloma", "position": "LB"},
-        {"name": "Didier Deschamps", "position": "CM"},
-        {"name": "Abedi Pele", "position": "CM"},
-        {"name": "Franck Sauzee", "position": "CM"},
-        {"name": "Alen Boksic", "position": "ST"},
-        {"name": "Rudi Voller", "position": "ST"},
-        {"name": "Jean-Jacques Eydelie", "position": "CM"},
+
+    "galatasaray_legends": [
+        {"name": "Claudio Taffarel", "position": "GK"},
+        {"name": "Gheorghe Popescu", "position": "CB"},
+        {"name": "Bülent Korkmaz", "position": "CB"},
+        {"name": "Hakan Ünsal", "position": "LB"},
+        {"name": "Sabri Sarıoğlu", "position": "RB"},
+        {"name": "Felipe Melo", "position": "CM"},
+        {"name": "Tugay Kerimoğlu", "position": "CM"},
+        {"name": "Gheorghe Hagi", "position": "CM"},
+        {"name": "Arda Turan", "position": "LW"},
+        {"name": "Wesley Sneijder", "position": "RW"},
+        {"name": "Mauro Icardi", "position": "ST"},
     ],
-    "monaco_2017": [
-        {"name": "Danijel Subasic", "position": "GK"},
-        {"name": "Djibril Sidibe", "position": "RB"},
-        {"name": "Kamil Glik", "position": "CB"},
-        {"name": "Jemerson", "position": "CB"},
-        {"name": "Benjamin Mendy", "position": "LB"},
-        {"name": "Fabinho", "position": "CM"},
-        {"name": "Tiemoue Bakayoko", "position": "CM"},
-        {"name": "Bernardo Silva", "position": "RW"},
-        {"name": "Thomas Lemar", "position": "LW"},
-        {"name": "Kylian Mbappe", "position": "ST"},
-        {"name": "Radamel Falcao", "position": "ST"},
+    "fenerbahce_legends": [
+        {"name": "Volkan Demirel", "position": "GK"},
+        {"name": "Lugano", "position": "CB"},
+        {"name": "Can Bartu", "position": "CB"},
+        {"name": "Roberto Carlos", "position": "LB"},
+        {"name": "Gökhan Gönül", "position": "RB"},
+        {"name": "Alex de Souza", "position": "CM"},
+        {"name": "Emre Belözoğlu", "position": "CM"},
+        {"name": "Oğuz Çetin", "position": "CM"},
+        {"name": "Dirk Kuyt", "position": "LW"},
+        {"name": "Jay-Jay Okocha", "position": "RW"},
+        {"name": "Aykut Kocaman", "position": "ST"},
     ],
-    "lyon_2006": [
-        {"name": "Gregory Coupet", "position": "GK"},
-        {"name": "Anthony Reveillere", "position": "RB"},
-        {"name": "Cris", "position": "CB"},
-        {"name": "Eric Abidal", "position": "CB"},
-        {"name": "Mahamadou Diarra", "position": "CM"},
-        {"name": "Juninho Pernambucano", "position": "CM"},
-        {"name": "Michael Essien", "position": "CM"},
-        {"name": "Florent Malouda", "position": "LW"},
-        {"name": "Sylvain Wiltord", "position": "RW"},
-        {"name": "Sidney Govou", "position": "ST"},
-        {"name": "John Carew", "position": "ST"},
+    "besiktas_legends": [
+        {"name": "Rüştü Reçber", "position": "GK"},
+        {"name": "Daniel Amokachi", "position": "CB"},
+        {"name": "Samet Aybaba", "position": "CB"},
+        {"name": "Tomas Sivok", "position": "LB"},
+        {"name": "Serdar Kurtuluş", "position": "RB"},
+        {"name": "Sergen Yalçın", "position": "CM"},
+        {"name": "Atiba Hutchinson", "position": "CM"},
+        {"name": "Josef de Souza", "position": "CM"},
+        {"name": "Ricardo Quaresma", "position": "LW"},
+        {"name": "Metin Tekin", "position": "RW"},
+        {"name": "Mario Gomez", "position": "ST"},
+    ],
+    "belgium_golden_generation": [
+        {"name": "Thibaut Courtois", "position": "GK"},
+        {"name": "Toby Alderweireld", "position": "CB"},
+        {"name": "Vincent Kompany", "position": "CB"},
+        {"name": "Jan Vertonghen", "position": "LB"},
+        {"name": "Thomas Meunier", "position": "RB"},
+        {"name": "Axel Witsel", "position": "CM"},
+        {"name": "Kevin De Bruyne", "position": "CM"},
+        {"name": "Youri Tielemans", "position": "CM"},
+        {"name": "Eden Hazard", "position": "LW"},
+        {"name": "Dries Mertens", "position": "RW"},
+        {"name": "Romelu Lukaku", "position": "ST"},
     ],
 }
 
@@ -515,30 +507,12 @@ ATTRIBUTE_BASES = {
     "SS": {"attack": 88, "midfield": 72, "defense": 38},
 }
 
-STAR_PLAYERS = re_list = [
-    "Messi",
-    "Ronaldo",
-    "Henry",
-    "Zidane",
-    "Xavi",
-    "Iniesta",
-    "Modric",
-    "Kroos",
-    "Maldini",
-    "Nesta",
-    "Baresi",
-    "Vieira",
-    "Beckham",
-    "Pirlo",
-    "Neuer",
-    "Lewandowski",
-    "Haaland",
-    "Van Dijk",
-    "Rodri",
-    "Bellingham",
-    "Mbappe",
-    "Osimhen",
-    "Vini",
+STAR_PLAYERS = [
+    "Messi", "Ronaldo", "Henry", "Zidane", "Xavi", "Iniesta", "Modric", "Kroos",
+    "Maldini", "Nesta", "Baresi", "Vieira", "Beckham", "Pirlo", "Neuer", "Lewandowski",
+    "Haaland", "Van Dijk", "Rodri", "Bellingham", "Mbappe", "Osimhen", "Vini",
+    "Hagi", "Sneijder", "Alex", "Hazard", "Lukaku", "Icardi", "Roberto Carlos",
+    "Taffarel", "Kompany", "Courtois", "Tugay"
 ]
 
 
@@ -581,12 +555,7 @@ def player_profile(player: Dict[str, str], team_id: str) -> PlayerProfile:
     defense = max(20, min(99, anchors["defense"] + variance * 0.6 + star_boost * 0.35 + team_boost))
     overall = max(20, min(99, base + variance + star_boost + team_boost))
 
-    return PlayerProfile(
-        attack=round(attack),
-        midfield=round(midfield),
-        defense=round(defense),
-        overall=round(overall),
-    )
+    return PlayerProfile(attack=round(attack), midfield=round(midfield), defense=round(defense), overall=round(overall))
 
 
 def get_open_slot_ids_for_player(position: str, filled_slots: List[str]) -> List[str]:
@@ -682,17 +651,8 @@ def build_insights(picks: List[Dict], stats: Dict) -> Dict:
     strongest = max(metric_rows, key=lambda x: x["value"])
     weakest = min(metric_rows, key=lambda x: x["value"])
     draft_mvp = max(picks, key=lambda p: p["profile"].overall)
-    comparison_team = min(TEAMS, key=lambda team: abs(team["score"] - stats["overall"]))
-    similarity = max(0, round(100 - abs(comparison_team["score"] - stats["overall"]) * 4))
     achievements = compute_achievements(stats, picks)
-    return {
-        "strongest": strongest,
-        "weakest": weakest,
-        "draft_mvp": draft_mvp,
-        "comparison_team": comparison_team,
-        "similarity": similarity,
-        "achievements": achievements,
-    }
+    return {"strongest": strongest, "weakest": weakest, "draft_mvp": draft_mvp, "achievements": achievements}
 
 
 def start_state():
@@ -886,10 +846,6 @@ with col_right:
         with b2:
             st.markdown("### Biggest weakness")
             st.write(f"**{insights['weakest']['label']}** — {insights['weakest']['value']}/100")
-            st.markdown("### Closest historical team")
-            team = insights["comparison_team"]
-            st.write(f"**{team['name']} {team['era']}**")
-            st.caption(f"Similarity {insights['similarity']}%")
 
         st.markdown("### Achievements")
         if insights["achievements"]:
